@@ -126,7 +126,7 @@ res.render("register")
 })
 .post((req,res)=>{
 const userName = req.body.username
-const password = req.body.password
+const password = md5(req.body.password)
 
 const user = new User({
     email:userName,
@@ -146,13 +146,17 @@ res.render("login")
 })
 .post((req,res)=>{
 const userName = req.body.username
-const password = req.body.password
+const password = md5(req.body.password)
 
 User.findOne({email : userName},(err,foundUser)=>{
     if(!err){
+        console.log(foundUser)
         if(foundUser.password == password){
             res.render("secrets")
         }
+    }
+    else{
+        console.log(err);
     }
 })
 
